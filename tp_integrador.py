@@ -33,12 +33,13 @@ while permitir == False:
     permitir_w=(input("""
             Ingresa 1 para ver los paises
             Ingresa 2 para buscar un pais
+            Ingresa 3 para ver los paises con mayor y menor poblacion
             Ingresa otro número para salir
             
             """))     #Optimizé el menú
     try:
         permitir_w=int(permitir_w)     #try para validar numeros       #y un if para salir del programa si el usuario lo decidio previamente
-        if permitir_w>2 or permitir_w<1:
+        if permitir_w>3 or permitir_w<1:
             break
         
     except:
@@ -117,4 +118,16 @@ while permitir == False:
             usuario=input("Ingresa el pais que desea buscar:").title()
             for pais in paises:
                 if usuario == pais["Nombre"]:
-                    print (pais)
+                    print (pais)            
+        case 3:   #en este bloque se van a mostrar los paises con mayor y menor poblacion registrados
+            población_menor=99999999999
+            población_mayor=0
+            for pais in paises:  #bucle para comparar la poblacion de todos los paise registrados
+                if pais["Población"]<población_menor:   #if para asignarle a las varibles de poblacion el valor de la menor y mayor de poblacion de cada pais-
+                    n_menor=pais["Nombre"]
+                    población_menor=pais["Población"]
+                if pais["Población"]>población_mayor:
+                    n_mayor=pais["Nombre"]
+                    población_mayor=pais["Población"]
+            print (f"el pais con mayor población es {n_mayor} con {población_mayor} habitantes")
+            print (f"el pais con menor población es {n_menor} con {población_menor} habitantes")
