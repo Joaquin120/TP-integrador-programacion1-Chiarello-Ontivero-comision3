@@ -57,9 +57,9 @@ permitir = False
 
 while permitir == False:
     permitir_w=(input("""
-            Ingresa 1 para ver los paises
-            Ingresa 2 para buscar un pais
-            Ingresa 3 para ver estadisticas
+            (1) Ver los paises
+            (2) Buscar un pais
+            (3) Ver estadisticas
             Ingresa otro número para salir
             
             """))     #Optimizé el menú
@@ -166,30 +166,17 @@ while permitir == False:
             usuario=input("Ingresa el pais que desea buscar:").title()
             for pais in paises:
                 if usuario == pais["Nombre"]:
-<<<<<<< HEAD
-                    print (pais)    
-            
-        case 3: #CASO 3 PRINCIPAL: Los países con mayor y menor poblacion registrados
-            población_menor=99999999999
-            población_mayor=0
-            for pais in paises:  #bucle para comparar la poblacion de todos los paises registrados
-                if pais["Población"]<población_menor:   #if para asignarle a las variables de poblacion el valor de la menor y mayor de poblacion de cada pais-
-                    n_menor=pais["Nombre"]
-                    población_menor=pais["Población"]
-                if pais["Población"]>población_mayor:
-                    n_mayor=pais["Nombre"]
-                    población_mayor=pais["Población"]
-            print (f"el pais con mayor población es {n_mayor} con {población_mayor} habitantes")
-            print (f"el pais con menor población es {n_menor} con {población_menor} habitantes")
-=======
                     print (pais)            
                     
         case 3:
-            print ("ingresa 1 para ver los paises con mayor y menor población")
-            print ("ingresa 2 para ver el promedio de poblacion de los paises")
-            print ("ingresa 3 para ver el promedio de superficie de los paises")
-            print ("ingresa 4 para ver cuantos paises tiene cada continente")
-            opcion=input("")
+            opcion=input("""
+                    
+                    (1) Ver los paises con mayor y menor población
+                    (2) Ver el promedio de poblacion de los paises
+                    (3) Ver el promedio de superficie de los paises
+                    (4) Ver cuantos paises tiene cada continente
+                    
+                    """)
             try:
                 opcion=int(opcion)
             except:
@@ -232,4 +219,3 @@ while permitir == False:
                             if continente in i["Continente"]:
                                 conteo_continentes[continente]+=1
                     print (conteo_continentes)
->>>>>>> joaquin
