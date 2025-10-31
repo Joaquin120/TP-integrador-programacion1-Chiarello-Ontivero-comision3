@@ -1,221 +1,273 @@
-def promedio(paises,x):    #x es el parametro al que queremos descubrir el promedio por ejemplo poblacion
-    cant_paises=len(paises) #calculo de promedio
-    promedio=0
-    for pais in paises:
-        promedio+=pais[x]
-    promedio/=cant_paises
-    return promedio
+# Definimos el nombre del archivo y el encabezado del mismo
+nombre_archivo = "paises.csv"
+encabezado = "NOMBRE,POBLACIÓN,SUPERFICIE,CONTINENTE\n"
 
-
-paises = [  #Creacion de lista con diccionarios dentro que continen informacion de paises
-    {"Nombre":"Argentina","Población":46994384,"Superficie":2780400,"Continente":"América del Sur"},
-    {"Nombre":"Brasil","Población":220051512 ,"Superficie":8515770,"Continente":"América del Sur"},
-    {"Nombre":"Japon","Población":123201945,"Superficie":377915,"Continente":"Asia oriental"},
-    {"Nombre":"Francia","Población":68374591,"Superficie":643801,"Continente":"Europa occidental"},     
-    {"Nombre":"Senegal","Población":18847519,"Superficie":196722,"Continente":"África occidental"},
-    {"Nombre":"Cuba","Población":10966038,"Superficie":110860,"Continente":"Centroamérica y el Caribe"},
-    {"Nombre":"España","Población":47280433,"Superficie":47280433,"Continente":"Suroeste de Europa"},
-    {"Nombre":"China","Población":1416043270,"Superficie":9596960,"Continente":"Asia oriental"}
+# Definimos los datos de los países
+datos_paises = [
+    "Argentina,46994384,2780400,América del Sur\n",
+    "Brasil,220051512,8515770,América del Sur\n",
+    "Japon,123201945,377915,Asia oriental\n",
+    "Francia,68374591,643801,Europa occidental\n",
+    "Senegal,18847519,196722,África occidental\n",
+    "Cuba,10966038,110860,Centroamérica y el Caribe\n",
+    "España,47280433,505370,Suroeste de Europa\n",
+    "China,1416043270,9596960,Asia oriental\n"
 ]
 
-#Añado el listado de países al archivo "paises.csv"
-
-with open("paises.csv" , "w") as archivo: 
-    archivo.write("NOMBRE,POBLACIÓN,SUPERFICIE,CONTINENTE \n")
-
-lista_paises = []
-for pais in paises:
-    pais_sin_keys = f"{pais['Nombre']},{pais['Población']},{pais['Superficie']},{pais['Continente']}"
-    lista_paises.append(pais_sin_keys)
-
-with open("paises.csv" , "a") as archivo:
+try:
+    # Abrimos el archivo en modo escritura ('w')
+    with open(nombre_archivo, "w") as archivo:
+        
+        # Escribimos el encabezado primero
+        archivo.write(encabezado)
+        
+        # Escribimos todas las líneas de datos de la lista
+        archivo.writelines(datos_paises)
     
-    for pais in lista_paises:
-        archivo.writelines(f"{pais}\n")
+    print(f"Archivo '{nombre_archivo}' creado exitosamente.")
 
-permitir2 = False
+except Exception as e:
+    print(f"Ocurrió un error al escribir el archivo: {e}")
 
-def final(permiso):
-    pregunta = input("¿Desea realizar otra actividad? (S/N)  ").capitalize()
+
+def calcular_promedio(paises, clave): # Calcula el promedio de una clave numérica (Población o Superficie)
+    if not paises:
+        return 0
+    total = 0
+    for pais in paises:
+        total += pais[clave]
+    return total / len(paises)
+
+def calcular_max_min_poblacion(paises): # Encuentra el país con mayor y menor población
+    if not paises:
+        return None, None
+
+    # Usa las funciones min() y max() con una lambda para establecer cual país tiene el mínimo de población y cuál el máximo
+    pais_min = min(paises, key=lambda p: p["Población"])
+    pais_max = max(paises, key=lambda p: p["Población"])
+    
+    return pais_min, pais_max
+
+def contar_paises_por_continente(paises): #Cuenta cuántos países hay por cada continente
+
+    conteo_continentes = {} # Usamos un diccionario vacío para ser dinámicos
+    for pais in paises:
+        continente = pais["Continente"]
+        if continente not in conteo_continentes:
+            conteo_continentes[continente] = 0 # Si no existe, lo creamos
+        conteo_continentes[continente] += 1
+    return conteo_continentes
+
+
+def mostrar_paises(lista_paises): #Maneja el submenú de la opción 1: Ver los países
+    
+    opcion_str = input("""
+        OPCIONES:
+        (1) LISTADO COMPLETO
+        (2) FILTRADO ALFABETICAMENTE
+        (3) FILTRADO POR CONTINENTE
+        (4) FILTRADO POR POBLACIÓN
+        (5) FILTRADO POR SUPERFICIE
+        Elija una opción: """)
+    
     print()
-    while pregunta != "S" and pregunta != "N":
-        
-        pregunta = input("""Valor inválido, intente nuevamente:
-                            
-                            
-                            
-                            """)
-        
-    if pregunta == "S":
-        permiso = False
-    elif pregunta == "N":
-        permiso = True
-
-    return permiso
-
-permitir = False
-
-while permitir == False:
-    permitir_w=(input("""
-            (1) Ver los paises
-            (2) Buscar un pais
-            (3) Ver estadisticas
-            Ingresa otro número para salir
-            
-            """))     #Optimizé el menú
+    
     try:
-        permitir_w=int(permitir_w)     #try para validar numeros       #y un if para salir del programa si el usuario lo decidio previamente
-        if permitir_w>3 or permitir_w<1:
-            break
-        
-    except:
-        print ("")
-        print ("            *Opcion no valida")
-    
+        opcion = int(opcion_str)
+    except ValueError:
+        print("Opción no válida.")
+        return
 
+    match opcion:
+        case 1: # LISTADO COMPLETO
+            print("-- Listado Completo --")
+            for pais in lista_paises:
+                print(f" - {pais['Nombre']}")
+        
+        case 2: # FILTRADO ALFABETICAMENTE
+            print("-- Listado Ordenado Alfabéticamente --")
+            paises_ordenados = sorted(lista_paises, key=lambda d: d["Nombre"])
+            for pais in paises_ordenados:
+                print(f" - {pais['Nombre']} ({pais['Continente']})")
+        
+        case 3: # FILTRADO POR CONTINENTE
+            print("-- Países Agrupados por Continente --")
+            paises_por_continente = {}
+            for pais in lista_paises:
+                continente = pais["Continente"]
+                if continente not in paises_por_continente:
+                    paises_por_continente[continente] = []
+                paises_por_continente[continente].append(pais)
+            
+            for continente, lista_de_paises in paises_por_continente.items():
+                print(f"\nContinente: {continente}")
+                for pais_individual in lista_de_paises:
+                    print(f"  - {pais_individual['Nombre']}")
+        
+        case 4: # FILTRADO POR POBLACIÓN
+            try:
+                min_poblacion = int(input("Rango mínimo de poblacion: "))
+                max_poblacion = int(input("Rango máximo de población: "))
+                paises_filtrados = []
+                
+                for pais in lista_paises:
+                    if min_poblacion <= pais["Población"] <= max_poblacion:
+                        paises_filtrados.append(pais)
+                
+                if not paises_filtrados:
+                    print("No hay países dentro de ese rango de población.")
+                else:
+                    print(f"\n-- Países entre {min_poblacion} y {max_poblacion} --")
+                    for pais in paises_filtrados:
+                        print(f" - {pais['Nombre']} ({pais['Población']} hab.)")
+            except ValueError:
+                print("Error: Rango de población debe ser numérico.")
+        
+        case 5: # FILTRADO POR SUPERFICIE (Lógica similar al case 4, pero con "Superficie")
+            print("Función de superficie no implementada.")
+        
+        case _:
+            print("Opción de listado no válida.")
+
+def buscar_pais(lista_paises):
+    """Busca un país por nombre y muestra sus detalles."""
+    nombre_buscado = input("Ingresa el pais que desea buscar: ").title()
+    encontrado = False
+    for pais in lista_paises:
+        if pais["Nombre"] == nombre_buscado:
+            print("\n-- País Encontrado --")
+            print(f"Nombre: {pais['Nombre']}")
+            print(f"Población: {pais['Población']}")
+            print(f"Superficie: {pais['Superficie']} km²")
+            print(f"Continente: {pais['Continente']}")
+            encontrado = True
+            break
     
-    match permitir_w:
-        case 1: #CASO 1 PRINCIPAL: Visualización de lista completa con diferentes opciones organizacionales
-            opcion = input("""
-                                
-                                    OPCIONES:
-                                (1) LISTADO COMPLETO
-                                (2) FILTRADO ALFABETICAMENTE
-                                (3) FILTRADO POR CONTINENTE
-                                (4) FILTRADO POR POBLACIÓN
-                                (5) FILTRADO POR SUPERFICIE (Ascendente y Descendente)
-                                
-                                """) #OPCIONES DE LISTADO
-            try:
-                opcion=int(opcion)
-            except:
-                print ("Opcion no valida")
-            
-            print()
-            match opcion: #MATCH PARA LAS OPCIONES DEL CASO 1 PRINCIPAL (ver los países)
-                
-                case 1: #Para ver el listado completo de países tal cual está
-                    for pais in paises:
-                        print(pais["Nombre"])
-                    permitir = final(permitir2) #Una llamada a la funcion para ver si el usuario quiere realizar alguna otra actividad (se repite en todos los casos)
-                    
-                case 2: #Para ver el listado de países ordenado alfabeticamente
-                    paises_ordenados = sorted(paises, key=lambda d: d["Nombre"]) #Funcion lambda y sorted para ordenar alfabeticamente
-                    for elemento in paises_ordenados:                        
-                        print(elemento)
-                    permitir = final(permitir2)
-                
-                case 3: #Para ver el listado de países agrupados por continente
-                    paises_por_continente = {} #Creo una nueva lista para almacenar los paises agrupados por continente
-                    
-                    for pais in paises:
-                        continente = pais["Continente"]
-                        if continente not in paises_por_continente:#Si es que el continente no está ya integrado en el diccionario se crea
-                            paises_por_continente[continente] = [] #un nuevo diccionario
-                        
-                        paises_por_continente[continente].append(pais) #Se añade el país con sus datos al diccionario
-                        
-                    print("-- Países Agrupados por Continente --")
-                    for continente,paises in paises_por_continente.items():
-                        print(f"Continente: {continente}")
-                        for pais in paises:
-                            print(f"  - {pais["Nombre"]}")
-                    
-                    permitir = final(permitir2)
-                
-                case 4: #Para ver el listado de países filtrados por un rango mínimo y un rango máximo de población definido por el usuario
-                    min_poblacion = int(input("Rango mínimo de poblacion:  ")) #Se establecen el rango mínimo y el máximo
-                    max_poblacion = int(input("Rango máximo de población:  "))
-                    paises_filtrados_poblacion = [] #Se crea una nueva lista para contener los paises filtrados en el rango establecido
-                    print()
-                    
-                    for pais in paises: #Se evalua si la poblacion del país dentro de la variable "pais" está dentro del rango o no
-                        poblacion = pais["Población"] #Si está dentro del rango, lo añade a la lista
-                        if poblacion >= min_poblacion and poblacion <= max_poblacion:
-                            paises_filtrados_poblacion.append(pais)
-                    
-                    if not paises_filtrados_poblacion: #Validación de si 
-                        print("No hay países dentro de ese rango de población.")
-                    else:
-                        print(f"-- Países entre {min_poblacion} y {max_poblacion} --")
-                        for pais in paises_filtrados_poblacion:
-                            print(f"{pais}\n")
-                    
-                    permitir = final(permitir2)
-                case 5: #Para ver el listado de países filtrados por un rango mínimo y un rango máximo de superficie definido por el usuario
-                    min_superficie = int(input("Rango mínimo de superficie: "))
-                    max_superficie = int(input("Rango máximo de superficie: "))
-                    paises_filtrados_superficie = []
-                    print()
-                    
-                    for pais in paises: #Se evalua si la poblacion del país dentro de la variable "pais" está dentro del rango o no
-                        superficie = pais["Superficie"] #Si está dentro del rango, lo añade a la lista
-                        if superficie >= min_superficie and superficie <= max_superficie:
-                            paises_filtrados_superficie.append(pais)
-                    
-                    if not paises_filtrados_superficie: #Validación de si 
-                        print("No hay países dentro de ese rango de superficie.")
-                    else:
-                        print(f"-- Países entre {min_superficie} y {max_superficie} --")
-                        for pais in paises_filtrados_superficie:
-                            print(f"{pais}\n")
-                        
-                    permitir = final(permitir2)
-            
-        case 2: #CASO 2 PRINCIPAL: Buscador de países
-            usuario=input("Ingresa el pais que desea buscar:").title()
-            for pais in paises:
-                if usuario == pais["Nombre"]:
-                    print (pais)            
-                    
+    if not encontrado:
+        print(f"Error: El país '{nombre_buscado}' no se encontró.")
+
+def mostrar_estadisticas_menu(lista_paises): #Maneja el submenú del case 3: "Ver estadísticas"
+    
+    opcion_str = input("""
+        ESTADÍSTICAS:
+        (1) Ver los paises con mayor y menor población
+        (2) Ver el promedio de población de los paises
+        (3) Ver el promedio de superficie de los paises
+        (4) Ver cuantos paises tiene cada continente
+        Elija una opción: """)
+    
+    try:
+        opcion = int(opcion_str)
+    except ValueError:
+        print("Opción no válida.")
+        return
+
+    match opcion:
+        case 1:
+            pais_min, pais_max = calcular_max_min_poblacion(lista_paises)
+            print(f"\nPaís con mayor población: {pais_max['Nombre']} ({pais_max['Población']} hab.)")
+            print(f"País con menor población: {pais_min['Nombre']} ({pais_min['Población']} hab.)")
+        case 2:
+            prom = calcular_promedio(lista_paises, "Población")
+            print(f"\nEl promedio de población es: {prom:,.0f} habitantes.")
         case 3:
-            opcion=input("""
-                    
-                    (1) Ver los paises con mayor y menor población
-                    (2) Ver el promedio de poblacion de los paises
-                    (3) Ver el promedio de superficie de los paises
-                    (4) Ver cuantos paises tiene cada continente
-                    
-                    """)
-            try:
-                opcion=int(opcion)
-            except:
-                print("")
+            prom_sup = calcular_promedio(lista_paises, "Superficie")
+            print(f"\nEl promedio de superficie es: {prom_sup:,.2f} km².")
+        case 4:
+            conteo = contar_paises_por_continente(lista_paises)
+            print("\n-- Conteo de Países por Continente --")
+            for continente, cantidad in conteo.items():
+                print(f" - {continente}: {cantidad} país/es")
+        case _:
+            print("Opción de estadística no válida.")
+
+def cargar_datos_csv(nombre_archivo): # Lee el archivo CSV y lo convierte en una lista de diccionarios.
+    
+    lista_paises = []
+    try:
+        with open(nombre_archivo, "r") as archivo:
+            # Saltamos la primera línea (el encabezado)
+            next(archivo) 
             
-            match opcion:
-                case 1:   #en este bloque se van a mostrar los paises con mayor y menor poblacion registrados
-                    población_menor=99999999999
-                    población_mayor=0
-                    for pais in paises:  #bucle para comparar la poblacion de todos los paise registrados
-                        if pais["Población"]<población_menor:   #if para asignarle a las varibles de poblacion el valor de la menor y mayor de poblacion de cada pais-
-                            n_menor=pais["Nombre"]
-                            población_menor=pais["Población"]
-                        if pais["Población"]>población_mayor:
-                            n_mayor=pais["Nombre"]
-                            población_mayor=pais["Población"]
-                    print ("")
-                    print ("")
-                    print (f"el pais con mayor población es {n_mayor} con {población_mayor} habitantes")
-                    print ("/")
-                    print (f"el pais con menor población es {n_menor} con {población_menor} habitantes")
-                    print ("")
-                    print ("")
-                case 2:
-                    print (f"el promedio de poblacion es {promedio(paises,"Población")} de personas")
-                case 3:
-                    print (f"el promedio de superficie es {promedio(paises,"Superficie")} KM cuadrados")
-                case 4:
-                    conteo_continentes={   #aca se van a contar cuantos paises tiene cada continente
-                        "América":0,
-                        "Asia":0,
-                        "Europa":0,
-                        "África":0,
-                        "Oceanía":0,
-                        "Antártida":0
-                    }
-                    lista_continentes_temporal=["América","Asia","Europa","África","Oceanía","Antártida"] 
-                    for continente in lista_continentes_temporal:
-                        for i in paises:
-                            if continente in i["Continente"]:
-                                conteo_continentes[continente]+=1
-                    print (conteo_continentes)
+            for linea in archivo:
+                linea = linea.strip() # Limpiamos saltos de línea
+                if linea: # Nos aseguramos que la línea no esté vacía
+                    partes = linea.split(',')
+                    
+                    if len(partes) == 4:
+                        try:
+                            # Creamos el diccionario convirtiendo los números a int
+                            pais_dict = {
+                                "Nombre": partes[0],
+                                "Población": int(partes[1]),
+                                "Superficie": int(partes[2]),
+                                "Continente": partes[3]
+                            }
+                            lista_paises.append(pais_dict)
+                        except ValueError:
+                            print(f"Advertencia: Omitiendo línea mal formada (no numérico): {linea}")
+                    else:
+                        print(f"Advertencia: Omitiendo línea mal formada (columnas): {linea}")
+                        
+    except FileNotFoundError:
+        print(f"ERROR FATAL: No se encontró el archivo '{nombre_archivo}'.")
+        return None # Devolvemos None para indicar que la carga falló
+    
+    print(f"Se cargaron {len(lista_paises)} países exitosamente.")
+    return lista_paises
+
+def preguntar_continuar():
+    """Maneja la lógica de tu función 'final()'."""
+    pregunta = input("\n¿Desea realizar otra actividad? (S/N): ").capitalize()
+    while pregunta not in ("S", "N"):
+        pregunta = input("Valor inválido. Intente (S/N): ").capitalize()
+    
+    if pregunta == "N":
+        return True # Retorna True para "terminar" (permitir = True)
+    else:
+        return False # Retorna False para "continuar" (permitir = False)
+
+def main():#Función principal que ejecuta el programa
+    
+    # 1. Cargamos los datos desde el CSV
+    lista_paises = cargar_datos_csv("paises.csv")
+    
+    # Si la carga falla, no continuamos
+    if lista_paises is None:
+        input("Presione Enter para salir.")
+        return
+
+    permitir_salir = False
+
+    while not permitir_salir:
+        opcion_menu = input("""
+        --- MENÚ PRINCIPAL ---
+        (1) Ver los países
+        (2) Buscar un país
+        (3) Ver estadísticas
+        (0) Salir
+        Elija una opción: """)
+        
+        try:
+            match opcion_menu:
+                case "1":
+                    mostrar_paises(lista_paises)
+                case "2":
+                    buscar_pais(lista_paises)
+                case "3":
+                    mostrar_estadisticas_menu(lista_paises)
+                case "0":
+                    permitir_salir = True
+                case _:
+                    print("Opción no válida, intente de nuevo.")
+        
+        except Exception as e:
+            print(f"Ocurrió un error inesperado: {e}")
+
+        # Preguntamos si desea continuar solo si no eligió salir
+        if not permitir_salir and opcion_menu in ("1", "2", "3"):
+            permitir_salir = preguntar_continuar()
+
+    print("\nFin del programa")
+if __name__ == "__main__":
+    main()
