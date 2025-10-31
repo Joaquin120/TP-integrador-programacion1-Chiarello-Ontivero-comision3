@@ -9,6 +9,21 @@ paises = [  #Creacion de lista con diccionarios dentro que continen informacion 
     {"Nombre":"China","Población":1416043270,"Superficie":9596960,"Continente":"Asia oriental"}
 ]
 
+#Añado el listado de países al archivo "paises.csv"
+
+with open("paises.csv" , "w") as archivo: 
+    archivo.write("NOMBRE,POBLACIÓN,SUPERFICIE,CONTINENTE \n")
+
+lista_paises = []
+for pais in paises:
+    pais_sin_keys = f"{pais['Nombre']},{pais['Población']},{pais['Superficie']},{pais['Continente']}"
+    lista_paises.append(pais_sin_keys)
+
+with open("paises.csv" , "a") as archivo:
+    
+    for pais in lista_paises:
+        archivo.writelines(f"{pais}\n")
+
 permitir2 = False
 
 def final(permiso):
@@ -144,7 +159,7 @@ while permitir == False:
                 if usuario == pais["Nombre"]:
                     print (pais)    
             
-        case 3:   #CASO 3 PRINCIPAL: Los países con mayor y menor poblacion registrados
+        case 3: #CASO 3 PRINCIPAL: Los países con mayor y menor poblacion registrados
             población_menor=99999999999
             población_mayor=0
             for pais in paises:  #bucle para comparar la poblacion de todos los paises registrados
