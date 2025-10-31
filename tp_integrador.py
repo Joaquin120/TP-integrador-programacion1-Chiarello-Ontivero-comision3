@@ -132,7 +132,8 @@ while permitir == False:
         case 3:
             print ("ingresa 1 para ver los paises con mayor y menor población")
             print ("ingresa 2 para ver el promedio de poblacion de los paises")
-            print ("ingresa 3 para ver el promedio de superficcie de los paises")
+            print ("ingresa 3 para ver el promedio de superficie de los paises")
+            print ("ingresa 4 para ver cuantos paises tiene cada continente")
             opcion=input("")
             try:
                 opcion=int(opcion)
@@ -161,3 +162,18 @@ while permitir == False:
                     print (f"el promedio de poblacion es {promedio(paises,"Población")} de personas")
                 case 3:
                     print (f"el promedio de superficie es {promedio(paises,"Superficie")} KM cuadrados")
+                case 4:
+                    conteo_continentes={   #aca se van a contar cuantos paises tiene cada continente
+                        "América":0,
+                        "Asia":0,
+                        "Europa":0,
+                        "África":0,
+                        "Oceanía":0,
+                        "Antártida":0
+                    }
+                    lista_continentes_temporal=["América","Asia","Europa","África","Oceanía","Antártida"] 
+                    for continente in lista_continentes_temporal:
+                        for i in paises:
+                            if continente in i["Continente"]:
+                                conteo_continentes[continente]+=1
+                    print (conteo_continentes)
