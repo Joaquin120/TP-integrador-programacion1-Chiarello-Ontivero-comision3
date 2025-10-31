@@ -9,11 +9,8 @@ paises = [  #Creacion de lista con diccionarios dentro que continen informacion 
     {"Nombre":"China","Población":1416043270,"Superficie":9596960,"Continente":"Asia oriental"}
 ]
 
-<<<<<<< HEAD
 permitir2 = False
 
-=======
->>>>>>> joaquin
 def final(permiso):
     pregunta = input("¿Desea realizar otra actividad? (S/N)  ").capitalize()
     print()
@@ -25,41 +22,16 @@ def final(permiso):
                             
                             """)
         
-<<<<<<< HEAD
     if pregunta == "S":
         permiso = False
     elif pregunta == "N":
         permiso = True
-=======
-        if pregunta == "S":
-            permiso = False
-        elif pregunta == "N":
-            permiso = True
->>>>>>> joaquin
 
     return permiso
 
 permitir = False
 
 while permitir == False:
-<<<<<<< HEAD
-    
-    permitir_w=int(input("""MENÚ
-                        
-            (1) Ver los paises
-            (2) Buscar un pais
-            (Otro número para salir)
-            
-            """)) #Optimizé el menú
-    
-    if permitir_w>2 or permitir_w<1:
-        break
-    print()
-    
-    match permitir_w:
-        case 1:
-            opcion = int(input("""
-=======
     permitir_w=(input("""
             Ingresa 1 para ver los paises
             Ingresa 2 para buscar un pais
@@ -79,9 +51,8 @@ while permitir == False:
 
     
     match permitir_w:
-        case 1:
+        case 1: #CASO 1 PRINCIPAL: Visualización de lista completa con diferentes opciones organizacionales
             opcion = input("""
->>>>>>> joaquin
                                 
                                     OPCIONES:
                                 (1) LISTADO COMPLETO
@@ -90,40 +61,28 @@ while permitir == False:
                                 (4) FILTRADO POR POBLACIÓN
                                 (5) FILTRADO POR SUPERFICIE (Ascendente y Descendente)
                                 
-<<<<<<< HEAD
-                                """)) #OPCIONES DE LISTADO
-=======
                                 """) #OPCIONES DE LISTADO
             try:
                 opcion=int(opcion)
             except:
                 print ("Opcion no valida")
             
->>>>>>> joaquin
             print()
-            match opcion:
-                case 1:
+            match opcion: #MATCH PARA LAS OPCIONES DEL CASO 1 PRINCIPAL (ver los países)
+                
+                case 1: #Para ver el listado completo de países tal cual está
                     for pais in paises:
                         print(pais["Nombre"])
-<<<<<<< HEAD
                     permitir = final(permitir2) #Una llamada a la funcion para ver si el usuario quiere realizar alguna otra actividad (se repite en todos los casos)
                     
-=======
-                    final(permitir)#Una llamada a la funcion para ver si el usuario quiere realizar alguna otra actividad (se repite en todos los casos)
-                
->>>>>>> joaquin
-                case 2:
+                case 2: #Para ver el listado de países ordenado alfabeticamente
                     paises_ordenados = sorted(paises, key=lambda d: d["Nombre"]) #Funcion lambda y sorted para ordenar alfabeticamente
                     for elemento in paises_ordenados:                        
                         print(elemento)
-<<<<<<< HEAD
                     permitir = final(permitir2)
-=======
-                    final(permitir)
->>>>>>> joaquin
                 
-                case 3:
-                    paises_por_continente = {} #Creo una nueva lista para almacenar los paises filtrados por continente
+                case 3: #Para ver el listado de países agrupados por continente
+                    paises_por_continente = {} #Creo una nueva lista para almacenar los paises agrupados por continente
                     
                     for pais in paises:
                         continente = pais["Continente"]
@@ -138,10 +97,9 @@ while permitir == False:
                         for pais in paises:
                             print(f"  - {pais["Nombre"]}")
                     
-<<<<<<< HEAD
                     permitir = final(permitir2)
                 
-                case 4: 
+                case 4: #Para ver el listado de países filtrados por un rango mínimo y un rango máximo de población definido por el usuario
                     min_poblacion = int(input("Rango mínimo de poblacion:  ")) #Se establecen el rango mínimo y el máximo
                     max_poblacion = int(input("Rango máximo de población:  "))
                     paises_filtrados_poblacion = [] #Se crea una nueva lista para contener los paises filtrados en el rango establecido
@@ -160,7 +118,7 @@ while permitir == False:
                             print(f"{pais}\n")
                     
                     permitir = final(permitir2)
-                case 5:
+                case 5: #Para ver el listado de países filtrados por un rango mínimo y un rango máximo de superficie definido por el usuario
                     min_superficie = int(input("Rango mínimo de superficie: "))
                     max_superficie = int(input("Rango máximo de superficie: "))
                     paises_filtrados_superficie = []
@@ -179,41 +137,18 @@ while permitir == False:
                             print(f"{pais}\n")
                         
                     permitir = final(permitir2)
-=======
-                    final(permitir)
-                
-                case 4: #Mismo procedimiento que con el case 3 pero con poblacion
-                    min_poblacion = int(input("Rango mínimo de poblacion:  "))
-                    max_poblacion = int(input("Rango máximo de población:  "))
-                    paises_filtrados = []
-                    print()
-                    
-                    for pais in paises:
-                        poblacion = pais["Población"]
-                        if poblacion >= min_poblacion and poblacion <= max_poblacion:
-                            paises_filtrados.append(pais)
-                    
-                    print(f"-- Países entre {min_poblacion} y {max_poblacion} --")
-                    print(paises_filtrados)
-                    
-                    final(permitir)
-                case 5:
-                    pass
             
->>>>>>> joaquin
-        case 2:
+        case 2: #CASO 2 PRINCIPAL: Buscador de países
             usuario=input("Ingresa el pais que desea buscar:").title()
             for pais in paises:
                 if usuario == pais["Nombre"]:
-<<<<<<< HEAD
-                    print (pais)
-=======
-                    print (pais)            
-        case 3:   #en este bloque se van a mostrar los paises con mayor y menor poblacion registrados
+                    print (pais)    
+            
+        case 3:   #CASO 3 PRINCIPAL: Los países con mayor y menor poblacion registrados
             población_menor=99999999999
             población_mayor=0
-            for pais in paises:  #bucle para comparar la poblacion de todos los paise registrados
-                if pais["Población"]<población_menor:   #if para asignarle a las varibles de poblacion el valor de la menor y mayor de poblacion de cada pais-
+            for pais in paises:  #bucle para comparar la poblacion de todos los paises registrados
+                if pais["Población"]<población_menor:   #if para asignarle a las variables de poblacion el valor de la menor y mayor de poblacion de cada pais-
                     n_menor=pais["Nombre"]
                     población_menor=pais["Población"]
                 if pais["Población"]>población_mayor:
@@ -221,4 +156,3 @@ while permitir == False:
                     población_mayor=pais["Población"]
             print (f"el pais con mayor población es {n_mayor} con {población_mayor} habitantes")
             print (f"el pais con menor población es {n_menor} con {población_menor} habitantes")
->>>>>>> joaquin
