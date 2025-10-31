@@ -1,3 +1,12 @@
+def promedio(paises,x):    #x es el parametro al que queremos descubrir el promedio por ejemplo poblacion
+    cant_paises=len(paises) #calculo de promedio
+    promedio=0
+    for pais in paises:
+        promedio+=pais[x]
+    promedio/=cant_paises
+    return promedio
+
+
 paises = [  #Creacion de lista con diccionarios dentro que continen informacion de paises
     {"Nombre":"Argentina","Población":46994384,"Superficie":2780400,"Continente":"América del Sur"},
     {"Nombre":"Brasil","Población":220051512 ,"Superficie":8515770,"Continente":"América del Sur"},
@@ -50,7 +59,7 @@ while permitir == False:
     permitir_w=(input("""
             Ingresa 1 para ver los paises
             Ingresa 2 para buscar un pais
-            Ingresa 3 para ver los paises con mayor y menor poblacion
+            Ingresa 3 para ver estadisticas
             Ingresa otro número para salir
             
             """))     #Optimizé el menú
@@ -157,6 +166,7 @@ while permitir == False:
             usuario=input("Ingresa el pais que desea buscar:").title()
             for pais in paises:
                 if usuario == pais["Nombre"]:
+<<<<<<< HEAD
                     print (pais)    
             
         case 3: #CASO 3 PRINCIPAL: Los países con mayor y menor poblacion registrados
@@ -171,3 +181,55 @@ while permitir == False:
                     población_mayor=pais["Población"]
             print (f"el pais con mayor población es {n_mayor} con {población_mayor} habitantes")
             print (f"el pais con menor población es {n_menor} con {población_menor} habitantes")
+=======
+                    print (pais)            
+                    
+        case 3:
+            print ("ingresa 1 para ver los paises con mayor y menor población")
+            print ("ingresa 2 para ver el promedio de poblacion de los paises")
+            print ("ingresa 3 para ver el promedio de superficie de los paises")
+            print ("ingresa 4 para ver cuantos paises tiene cada continente")
+            opcion=input("")
+            try:
+                opcion=int(opcion)
+            except:
+                print("")
+            
+            match opcion:
+                case 1:   #en este bloque se van a mostrar los paises con mayor y menor poblacion registrados
+                    población_menor=99999999999
+                    población_mayor=0
+                    for pais in paises:  #bucle para comparar la poblacion de todos los paise registrados
+                        if pais["Población"]<población_menor:   #if para asignarle a las varibles de poblacion el valor de la menor y mayor de poblacion de cada pais-
+                            n_menor=pais["Nombre"]
+                            población_menor=pais["Población"]
+                        if pais["Población"]>población_mayor:
+                            n_mayor=pais["Nombre"]
+                            población_mayor=pais["Población"]
+                    print ("")
+                    print ("")
+                    print (f"el pais con mayor población es {n_mayor} con {población_mayor} habitantes")
+                    print ("/")
+                    print (f"el pais con menor población es {n_menor} con {población_menor} habitantes")
+                    print ("")
+                    print ("")
+                case 2:
+                    print (f"el promedio de poblacion es {promedio(paises,"Población")} de personas")
+                case 3:
+                    print (f"el promedio de superficie es {promedio(paises,"Superficie")} KM cuadrados")
+                case 4:
+                    conteo_continentes={   #aca se van a contar cuantos paises tiene cada continente
+                        "América":0,
+                        "Asia":0,
+                        "Europa":0,
+                        "África":0,
+                        "Oceanía":0,
+                        "Antártida":0
+                    }
+                    lista_continentes_temporal=["América","Asia","Europa","África","Oceanía","Antártida"] 
+                    for continente in lista_continentes_temporal:
+                        for i in paises:
+                            if continente in i["Continente"]:
+                                conteo_continentes[continente]+=1
+                    print (conteo_continentes)
+>>>>>>> joaquin
