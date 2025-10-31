@@ -123,11 +123,15 @@ while permitir == False:
                 case 5:
                     pass
             
+            
+            
         case 2:
             usuario=input("Ingresa el pais que desea buscar:").title()
             for pais in paises:
                 if usuario == pais["Nombre"]:
                     print (pais)            
+                   
+                   
                     
         case 3:
             print ("ingresa 1 para ver los paises con mayor y menor población")
@@ -158,10 +162,13 @@ while permitir == False:
                     print (f"el pais con menor población es {n_menor} con {población_menor} habitantes")
                     print ("")
                     print ("")
+                    
                 case 2:
                     print (f"el promedio de poblacion es {promedio(paises,"Población")} de personas")
+                    
                 case 3:
                     print (f"el promedio de superficie es {promedio(paises,"Superficie")} KM cuadrados")
+                    
                 case 4:
                     conteo_continentes={   #aca se van a contar cuantos paises tiene cada continente
                         "América":0,
