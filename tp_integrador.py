@@ -1,3 +1,12 @@
+def promedio(paises,x):    #x es el parametro al que queremos descubrir el promedio por ejemplo poblacion
+    cant_paises=len(paises) #calculo de promedio
+    promedio=0
+    for pais in paises:
+        promedio+=pais[x]
+    promedio/=cant_paises
+    return promedio
+
+
 paises = [  #Creacion de lista con diccionarios dentro que continen informacion de paises
     {"Nombre":"Argentina","Población":46994384,"Superficie":2780400,"Continente":"América del Sur"},
     {"Nombre":"Brasil","Población":220051512 ,"Superficie":8515770,"Continente":"América del Sur"},
@@ -33,7 +42,7 @@ while permitir == False:
     permitir_w=(input("""
             Ingresa 1 para ver los paises
             Ingresa 2 para buscar un pais
-            Ingresa 3 para ver los paises con mayor y menor poblacion
+            Ingresa 3 para ver estadisticas
             Ingresa otro número para salir
             
             """))     #Optimizé el menú
@@ -119,15 +128,36 @@ while permitir == False:
             for pais in paises:
                 if usuario == pais["Nombre"]:
                     print (pais)            
-        case 3:   #en este bloque se van a mostrar los paises con mayor y menor poblacion registrados
-            población_menor=99999999999
-            población_mayor=0
-            for pais in paises:  #bucle para comparar la poblacion de todos los paise registrados
-                if pais["Población"]<población_menor:   #if para asignarle a las varibles de poblacion el valor de la menor y mayor de poblacion de cada pais-
-                    n_menor=pais["Nombre"]
-                    población_menor=pais["Población"]
-                if pais["Población"]>población_mayor:
-                    n_mayor=pais["Nombre"]
-                    población_mayor=pais["Población"]
-            print (f"el pais con mayor población es {n_mayor} con {población_mayor} habitantes")
-            print (f"el pais con menor población es {n_menor} con {población_menor} habitantes")
+                    
+        case 3:
+            print ("ingresa 1 para ver los paises con mayor y menor población")
+            print ("ingresa 2 para ver el promedio de poblacion de los paises")
+            print ("ingresa 3 para ver el promedio de superficcie de los paises")
+            opcion=input("")
+            try:
+                opcion=int(opcion)
+            except:
+                print("")
+            
+            match opcion:
+                case 1:   #en este bloque se van a mostrar los paises con mayor y menor poblacion registrados
+                    población_menor=99999999999
+                    población_mayor=0
+                    for pais in paises:  #bucle para comparar la poblacion de todos los paise registrados
+                        if pais["Población"]<población_menor:   #if para asignarle a las varibles de poblacion el valor de la menor y mayor de poblacion de cada pais-
+                            n_menor=pais["Nombre"]
+                            población_menor=pais["Población"]
+                        if pais["Población"]>población_mayor:
+                            n_mayor=pais["Nombre"]
+                            población_mayor=pais["Población"]
+                    print ("")
+                    print ("")
+                    print (f"el pais con mayor población es {n_mayor} con {población_mayor} habitantes")
+                    print ("/")
+                    print (f"el pais con menor población es {n_menor} con {población_menor} habitantes")
+                    print ("")
+                    print ("")
+                case 2:
+                    print (f"el promedio de poblacion es {promedio(paises,"Población")} de personas")
+                case 3:
+                    print (f"el promedio de superficie es {promedio(paises,"Superficie")} KM cuadrados")
