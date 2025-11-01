@@ -51,4 +51,4 @@ Particiopacion de integrantes:
 
 (Joaquín Chiarello):creacion de repositorio,lista de paises,fuentes,funcionalidades para mostrar estadisticas,funcion para busqueda de paises.
 
-(Santiago Ontivero):Manejo de archivos csv,manejo general del repositorio,funsionalidad de filtrado,funcionalidades de oredenamiento de paises
+(Santiago Ontivero):Manejo de archivos csv,manejo general del repositorio,funsionalidad de filtrado,funcionalidades de ordenamiento de paises
